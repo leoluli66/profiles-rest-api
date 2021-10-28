@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
 
 from profiles_api import serializers
 from profiles_api import models
@@ -104,3 +105,5 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = models.UserProfile.objects.all() #The all() method returns a QuerySet of all the objects in the database.
     authentication_classes = (TokenAuthentication,) # we want to build a tuple rather than a single item
     permission_classes = (permissions.UpdateOwnProfile,)
+    filter_backends = (filters.SearchFilter,) # search by name or by email
+    search_fields = ('name', 'email',)
